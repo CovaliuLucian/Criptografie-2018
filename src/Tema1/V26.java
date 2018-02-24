@@ -64,4 +64,25 @@ public class V26 {
 
         return output.toString();
     }
+
+    public static String Crack(String cryptoText) {
+        FindLength(cryptoText);
+        return null;
+    }
+
+    private static int FindLength(String cryptoText) {
+        int lenght;
+        for (lenght = 0; lenght < cryptoText.length(); lenght++) {
+            double sum = 0;
+            for (int i = 0; lenght + i < cryptoText.length(); i++) {
+                sum += Utilities.IC(cryptoText.substring(lenght, lenght + i));
+            }
+            double rez = sum / lenght;
+            out.println(rez);
+        }
+
+
+        out.print(lenght);
+        return 0;
+    }
 }

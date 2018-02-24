@@ -8,5 +8,7 @@ public class Main {
         String encrypted = V26.Encrypt();
         String decrypted = V26.Decrypt(encrypted);
 
+        V26.Crack(encrypted);
+
     }
 }
