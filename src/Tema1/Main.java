@@ -1,11 +1,12 @@
-package com.company;
+package Tema1;
 
 public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        Setup s = new Setup();
-        Encryptor encrypter = new Encryptor(s.getKey(),s.getPlainText());
-        encrypter.Encrypt();
+        V26.Setup();
+        String encrypted = V26.Encrypt();
+        String decrypted = V26.Decrypt(encrypted);
+
     }
 }
