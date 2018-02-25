@@ -6,7 +6,7 @@ public class Main {
 	// write your code here
         V26.Setup();
         String encrypted = V26.Encrypt();
-        String decrypted = V26.Decrypt(encrypted);
+        String decrypted = V26.Decrypt(encrypted, V26.getKey());
 
         V26.Crack(encrypted);
 

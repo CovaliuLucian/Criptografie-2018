@@ -15,11 +15,29 @@ public class Utilities {
             return 0;
         double output = 0;
         for (int i = 0; i < 25; i++) {
-            double f1 = Frequency(text, (char) (i + 'A')) / text.length();
-            double f2 = (Frequency(text, (char) (i + 'A')) - 1) / (text.length() - 1);
+            double f1 = (double) Frequency(text, (char) (i + 'A')) / text.length();
+            double f2 = (double) (Frequency(text, (char) (i + 'A')) - 1) / (text.length() - 1);
             output += f1 * f2;
         }
 
         return output;
+    }
+
+    public static String GenerateSubstring(String text, int pas, int start) {
+        StringBuilder output = new StringBuilder();
+        for (int i = start; i < text.length(); i += pas) {
+            output.append(text.charAt(i));
+        }
+        //System.out.println(output);
+        return output.toString();
+    }
+
+    public static String EliminatePunctuacion(String text) {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isLetter(text.charAt(i)))
+                output.append(text.charAt(i));
+        }
+        return output.toString();
     }
 }

@@ -15,6 +15,10 @@ public class V26 {
         }
     }
 
+    public static String getKey() {
+        return key;
+    }
+
     private static boolean Read() {
         out.println("key: ");
         Scanner scanner = new Scanner(System.in);
@@ -45,7 +49,7 @@ public class V26 {
         return output.toString();
     }
 
-    public static String Decrypt(String cryptoText) {
+    public static String Decrypt(String cryptoText, String key) {
         int pos = 0;
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < cryptoText.length(); i++) {
@@ -66,23 +70,28 @@ public class V26 {
     }
 
     public static String Crack(String cryptoText) {
-        FindLength(cryptoText);
+        String pureText = Utilities.EliminatePunctuacion(cryptoText);
+        FindLength(pureText);
         return null;
     }
 
     private static int FindLength(String cryptoText) {
-        int lenght;
-        for (lenght = 0; lenght < cryptoText.length(); lenght++) {
+        int length, bestLength = -1;
+        double best = 1;
+        for (length = 1; length < 20; length++) {
             double sum = 0;
-            for (int i = 0; lenght + i < cryptoText.length(); i++) {
-                sum += Utilities.IC(cryptoText.substring(lenght, lenght + i));
+            for (int i = 0; i < length; i++) {
+                sum += Utilities.IC(Utilities.GenerateSubstring(cryptoText, length, i));
             }
-            double rez = sum / lenght;
-            out.println(rez);
+            double rez = sum / length;
+            if (Math.abs(0.0667 - rez) < best) {
+                best = Math.abs(0.0667 - rez);
+                bestLength = length;
+            }
+            out.println(length + " : " + rez);
         }
 
-
-        out.print(lenght);
-        return 0;
+        out.print(bestLength);
+        return bestLength;
     }
 }
