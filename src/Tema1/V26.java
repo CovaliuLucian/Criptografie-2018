@@ -1,7 +1,13 @@
 package Tema1;
 
+import util.MapUtil;
+
 import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import static java.lang.System.out;
 
@@ -70,28 +76,27 @@ public class V26 {
     }
 
     public static String Crack(String cryptoText) {
-        String pureText = Utilities.EliminatePunctuacion(cryptoText);
-        FindLength(pureText);
+        String pureText = Utilities.EliminatePunctuation(cryptoText);
+        out.print(FindLength(pureText));
         return null;
     }
 
-    private static int FindLength(String cryptoText) {
-        int length, bestLength = -1;
+    private static List<Integer> FindLength(String cryptoText) {
+        int length;
+        HashMap<Integer, Double> theBest = new HashMap<>();
         double best = 1;
-        for (length = 1; length < 20; length++) {
+        for (length = 1; length < cryptoText.length(); length++) {
             double sum = 0;
             for (int i = 0; i < length; i++) {
                 sum += Utilities.IC(Utilities.GenerateSubstring(cryptoText, length, i));
             }
             double rez = sum / length;
-            if (Math.abs(0.0667 - rez) < best) {
-                best = Math.abs(0.0667 - rez);
-                bestLength = length;
-            }
-            out.println(length + " : " + rez);
+            theBest.put(length, Math.abs(rez - 0.065));
+            //out.println(length + " : " + rez);
         }
 
-        out.print(bestLength);
-        return bestLength;
+        Map<Integer, Double> sorted = MapUtil.sortByValue(theBest);
+        return sorted.keySet().stream().limit(20).collect(Collectors.toList());
+
     }
 }

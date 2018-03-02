@@ -32,7 +32,7 @@ public class Utilities {
         return output.toString();
     }
 
-    public static String EliminatePunctuacion(String text) {
+    public static String EliminatePunctuation(String text) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             if (Character.isLetter(text.charAt(i)))

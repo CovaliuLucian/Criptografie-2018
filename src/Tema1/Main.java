@@ -1,5 +1,7 @@
 package Tema1;
 
+import static java.lang.System.out;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -8,7 +10,7 @@ public class Main {
         String encrypted = V26.Encrypt();
         String decrypted = V26.Decrypt(encrypted, V26.getKey());
 
-        V26.Crack(encrypted);
+        out.println(V26.Crack(encrypted));
 
     }
 }
