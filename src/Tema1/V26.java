@@ -77,14 +77,20 @@ public class V26 {
 
     public static String Crack(String cryptoText) {
         String pureText = Utilities.EliminatePunctuation(cryptoText);
-        out.print(FindLength(pureText));
+        //List<Integer> lengths = FindLength(pureText);
+        //lengths.sort(Comparator.naturalOrder());
+
+        out.println(FindLengthHard(pureText));
+
+        //return lengths.get(0).toString(); // temporary
         return null;
+
+
     }
 
     private static List<Integer> FindLength(String cryptoText) {
         int length;
         HashMap<Integer, Double> theBest = new HashMap<>();
-        double best = 1;
         for (length = 1; length < cryptoText.length(); length++) {
             double sum = 0;
             for (int i = 0; i < length; i++) {
@@ -98,5 +104,38 @@ public class V26 {
         Map<Integer, Double> sorted = MapUtil.sortByValue(theBest);
         return sorted.keySet().stream().limit(20).collect(Collectors.toList());
 
+    }
+
+    private static int FindLengthHard(String cryptoText) {
+        int length;
+        boolean isGood;
+        for (length = 1; length < cryptoText.length(); length++) {
+            isGood = true;
+            out.print(length + ": ");
+            for (int i = 0; i < length; i++) {
+                double rez = Utilities.IC(Utilities.GenerateSubstring(cryptoText, length, i));
+                out.print(rez + " ");
+                if (rez < 0.055 || rez > 0.07)
+                    isGood = false;
+            }
+            out.println();
+            if (isGood)
+                return length;
+        }
+        return 0;
+    }
+
+    private static String FindKey(String cryptoText, int length) {
+        StringBuilder key = new StringBuilder("");
+        for (int i = 0; i < length; i++) {
+            int s = -1;
+            do {
+                s++;
+            }
+            while (false); //TODODODO
+            key.append((char) ((26 - s) % 26 + 'A'));
+        }
+
+        return key.toString();
     }
 }

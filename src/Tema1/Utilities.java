@@ -40,4 +40,17 @@ public class Utilities {
         }
         return output.toString();
     }
+
+    public static double MIC(String firstText, String secondText) {
+        if (firstText.length() < 2 || secondText.length() < 2)
+            return 0;
+        double output = 0;
+        for (int i = 0; i < 25; i++) {
+            double f1 = (double) Frequency(firstText, (char) (i + 'A')) / firstText.length();
+            double f2 = (double) Frequency(secondText, (char) (i + 'A')) / secondText.length();
+            output += f1 * f2;
+        }
+
+        return output;
+    }
 }
