@@ -70,7 +70,7 @@ public class V26 {
                 output.append(cryptoText.charAt(i));
         }
 
-        System.out.println("Decrypted text:" + output.toString());
+        //System.out.println("Decrypted text:" + output.toString());
 
         return output.toString();
     }
@@ -80,10 +80,11 @@ public class V26 {
         //List<Integer> lengths = FindLength(pureText);
         //lengths.sort(Comparator.naturalOrder());
 
-        out.println(FindLengthHard(pureText));
+        int len = FindLengthHard(pureText);
+        out.println("\n" + len);
 
         //return lengths.get(0).toString(); // temporary
-        return null;
+        return FindKey(pureText, len);
 
 
     }
@@ -111,29 +112,37 @@ public class V26 {
         boolean isGood;
         for (length = 1; length < cryptoText.length(); length++) {
             isGood = true;
-            out.print(length + ": ");
+            //out.print(length + ": ");
             for (int i = 0; i < length; i++) {
                 double rez = Utilities.IC(Utilities.GenerateSubstring(cryptoText, length, i));
-                out.print(rez + " ");
+                //out.print(rez + " ");
                 if (rez < 0.055 || rez > 0.07)
                     isGood = false;
             }
-            out.println();
+            //out.println();
             if (isGood)
                 return length;
         }
         return 0;
     }
 
+
     private static String FindKey(String cryptoText, int length) {
         StringBuilder key = new StringBuilder("");
         for (int i = 0; i < length; i++) {
             int s = -1;
+            double MIC;
             do {
                 s++;
+                MIC = Utilities.MIC(Utilities.EliminatePunctuation(plainText), Decrypt(Utilities.GenerateSubstring(cryptoText, length, i), Character.toString((char) (s + 'A'))));
+                if (s > 25)
+                    return "!!!Error";
+                //out.println(s + " : " + MIC);
             }
-            while (false); //TODODODO
-            key.append((char) ((26 - s) % 26 + 'A'));
+            while (MIC < 0.052 || MIC > 0.07);
+            out.println((char) (s + 'A'));
+            //key.append((char) ((26 - s) % 26 + 'A'));
+            key.append((char) (s + 'A'));
         }
 
         return key.toString();
