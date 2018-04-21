@@ -112,16 +112,17 @@ public class V26 {
     private static int FindLengthHard(String cryptoText) {
         int length;
         boolean isGood;
-        for (length = 1; length < cryptoText.length(); length++) {
+        for (length = 1; length < 50; length++)
+        {
             isGood = true;
-            //out.print(length + ": ");
+            out.print(length + ": ");
             for (int i = 0; i < length; i++) {
                 double rez = Utilities.IC(Utilities.GenerateSubstring(cryptoText, length, i));
-                //out.print(rez + " ");
-                if (rez < 0.055 || rez > 0.07)
+                out.print(rez + " ");
+                if (rez < 0.055 || rez > 0.09)
                     isGood = false;
             }
-            //out.println();
+            out.println();
             if (isGood)
                 return length;
         }
@@ -129,7 +130,8 @@ public class V26 {
     }
 
 
-    private static String FindKey(String cryptoText, int length) {
+    private static String FindKey(String cryptoText, int length) throws StackOverflowError
+    {
         StringBuilder key = new StringBuilder("");
         for (int i = 0; i < length; i++) {
             int s = -1;
@@ -138,10 +140,10 @@ public class V26 {
                 s++;
                 MIC = Utilities.MIC(dummyText, Decrypt(Utilities.GenerateSubstring(cryptoText, length, i), Character.toString((char) (s + 'A'))));
                 if (s > 25)
-                    return "!!!Error";
+                    throw new StackOverflowError("Too many iterations!");
                 //out.println(s + " : " + MIC);
             }
-            while (MIC < 0.052 || MIC > 0.07);
+            while (MIC < 0.052 || MIC > 0.09);
             out.println((char) (s + 'A'));
             //key.append((char) ((26 - s) % 26 + 'A'));
             key.append((char) (s + 'A'));
